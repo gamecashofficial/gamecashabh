@@ -2016,12 +2016,12 @@ bool LoadBlockIndex(bool fAllowNew)
         block.nVersion = 1;
         block.nTime    = 1506282868; //epochtime
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 1345972;
+        block.nNonce   = 0;
 
         if (fTestNet)
         {
             block.nTime    = 1506282868;
-            block.nNonce   = 440824;
+            block.nNonce   = 0;
         }
 
         //// debug print
