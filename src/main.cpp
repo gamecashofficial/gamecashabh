@@ -50,7 +50,7 @@ map<uint256, map<uint256, CDataStream*> > mapOrphanTransactionsByPrev;
 // Constant stuff for coinbase transactions we create:
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "barcoin Signed Message:\n";
+const string strMessageMagic = "gamecash Signed Message:\n";
 
 double dHashesPerSec;
 int64 nHPSTimerStart;
@@ -828,13 +828,13 @@ uint256 static GetOrphanRoot(const CBlock* pblock)
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 1 * COIN;
+    int64 nSubsidy = 40 * COIN;
 
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 1 * 24 * 60 * 60; // barcoin: 1 days
-static const int64 nTargetSpacing = 120; // barcoin: 2 minute blocks
+static const int64 nTargetTimespan = 1 * 24 * 60 * 60; // gamecash: 1 days
+static const int64 nTargetSpacing = 120; // gamecash: 2 minute blocks
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
 // Thanks: Balthazar for suggesting the following fix
@@ -1178,7 +1178,7 @@ bool CTransaction::ConnectInputs(MapPrevTx inputs,
 {
     // Take over previous transactions' spent pointers
     // fBlock is true when this is called from AcceptBlock when a new best-block is added to the blockchain
-    // fMiner is true when called from the internal barcoin miner
+    // fMiner is true when called from the internal gamecash miner
     // ... both are false when called from CTransaction::AcceptToMemoryPool
     if (!IsCoinBase())
     {
@@ -1925,7 +1925,7 @@ bool CheckDiskSpace(uint64 nAdditionalBytes)
         string strMessage = _("Warning: Disk space is low");
         strMiscWarning = strMessage;
         printf("*** %s\n", strMessage.c_str());
-        uiInterface.ThreadSafeMessageBox(strMessage, "barcoin", CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION | CClientUIInterface::MODAL);
+        uiInterface.ThreadSafeMessageBox(strMessage, "gamecash", CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION | CClientUIInterface::MODAL);
         StartShutdown();
         return false;
     }
@@ -2002,7 +2002,7 @@ bool LoadBlockIndex(bool fAllowNew)
     
         
         // Genesis block
-        const char* pszTimestamp = "Building a coin to show the world how...";
+        const char* pszTimestamp = "24/09/2017 Revolutionising the gaming industry";
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -2014,13 +2014,13 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1369623856; //epochtime
+        block.nTime    = 1506282868; //epochtime
         block.nBits    = 0x1e0ffff0;
         block.nNonce   = 1345972;
 
         if (fTestNet)
         {
-            block.nTime    = 1369591342;
+            block.nTime    = 1506282868;
             block.nNonce   = 440824;
         }
 
@@ -2227,7 +2227,7 @@ CCriticalSection cs_mapAlerts;
 string GetWarnings(string strFor)
 {
     int nPriority = 0;
-    string strStatusBar;
+    string strStatusGCSH;
     string strRPC;
     if (GetBoolArg("-testsafemode"))
         strRPC = "test";
@@ -2236,14 +2236,14 @@ string GetWarnings(string strFor)
     if (strMiscWarning != "")
     {
         nPriority = 1000;
-        strStatusBar = strMiscWarning;
+        strStatusGCSH = strMiscWarning;
     }
 
     // Longer invalid proof-of-work chain
     if (pindexBest && bnBestInvalidWork > bnBestChainWork + pindexBest->GetBlockWork() * 6)
     {
         nPriority = 2000;
-        strStatusBar = strRPC = "WARNING: Displayed transactions may not be correct!  You may need to upgrade, or other nodes may need to upgrade.";
+        strStatusGCSH = strRPC = "WARNING: Displayed transactions may not be correct!  You may need to upgrade, or other nodes may need to upgrade.";
     }
 
     // Alerts
@@ -2255,13 +2255,13 @@ string GetWarnings(string strFor)
             if (alert.AppliesToMe() && alert.nPriority > nPriority)
             {
                 nPriority = alert.nPriority;
-                strStatusBar = alert.strStatusBar;
+                strStatusGCSH = alert.strStatusGCSH;
             }
         }
     }
 
-    if (strFor == "statusbar")
-        return strStatusBar;
+    if (strFor == "statusGCSH")
+        return strStatusGCSH;
     else if (strFor == "rpc")
         return strRPC;
     assert(!"GetWarnings() : invalid parameter");

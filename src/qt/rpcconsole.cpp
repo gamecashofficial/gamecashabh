@@ -11,7 +11,7 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 #include <QUrl>
-#include <QScrollBar>
+#include <QScrollGCSH>
 
 #include <boost/tokenizer.hpp>
 #include <openssl/crypto.h>
@@ -210,7 +210,7 @@ void RPCConsole::clear()
                 "b { color: #006060; } "
                 );
 
-    message(CMD_REPLY, (tr("Welcome to the barcoin RPC console.") + "<br>" +
+    message(CMD_REPLY, (tr("Welcome to the gamecash RPC console.") + "<br>" +
                         tr("Use up and down arrows to navigate history, and <b>Ctrl-L</b> to clear screen.") + "<br>" +
                         tr("Type <b>help</b> for an overview of available commands.")), true);
 }
@@ -324,8 +324,8 @@ void RPCConsole::on_openDebugLogfileButton_clicked()
 
 void RPCConsole::scrollToEnd()
 {
-    QScrollBar *scrollbar = ui->messagesWidget->verticalScrollBar();
-    scrollbar->setValue(scrollbar->maximum());
+    QScrollGCSH *scrollGCSH = ui->messagesWidget->verticalScrollGCSH();
+    scrollGCSH->setValue(scrollGCSH->maximum());
 }
 
 void RPCConsole::on_showCLOptionsButton_clicked()

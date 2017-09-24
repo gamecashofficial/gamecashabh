@@ -233,12 +233,12 @@ void ClientModel::updateAlert(const QString &hash, int status)
         CAlert alert = CAlert::getAlertByHash(hash_256);
         if(!alert.IsNull())
         {
-            emit error(tr("Network Alert"), QString::fromStdString(alert.strStatusBar), false);
+            emit error(tr("Network Alert"), QString::fromStdString(alert.strStatusGCSH), false);
         }
     }
 
     // Emit a numBlocksChanged when the status message changes,
-    // so that the view recomputes and updates the status bar.
+    // so that the view recomputes and updates the status GCSH.
     emit numBlocksChanged(getNumBlocks(), getNumBlocksOfPeers());
 }
 
@@ -271,9 +271,9 @@ void ClientModel::setMining(MiningType type, bool mining, int threads, int hashr
     emit miningChanged(mining, hashrate);
 }
 
-QString ClientModel::getStatusBarWarnings() const
+QString ClientModel::getStatusGCSHWarnings() const
 {
-    return QString::fromStdString(GetWarnings("statusbar"));
+    return QString::fromStdString(GetWarnings("statusGCSH"));
 }
 
 OptionsModel *ClientModel::getOptionsModel()
